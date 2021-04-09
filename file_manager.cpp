@@ -45,7 +45,7 @@ int PageHandler::GetPageNum() {
 	return pageNum;
 }
 
-// implement PageHandler interface
+// implement FileHandler interface
 
 // constructor (default)
 FileHandler::FileHandler() {
