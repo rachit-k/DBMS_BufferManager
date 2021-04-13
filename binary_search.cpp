@@ -3,14 +3,16 @@
 #include "errors.h"
 #include<cstring>
 #include "constants.h"
+#include <bits/stdc++.h>
 
 using namespace std;
 
 bool bsearch(int startpage, int endpage, int *mid, int *offset, int num, FileHandler fh)
 {
 	bool ret=false;
-
-	while(startpage <= endpage && !ret)
+	cout<<"startpage "<<startpage<<" endpage "<<endpage<<endl;
+	// while(startpage <= endpage && !ret)
+	while(true)
 	{
 		if(startpage > endpage)
 		{
@@ -25,26 +27,35 @@ bool bsearch(int startpage, int endpage, int *mid, int *offset, int num, FileHan
 		{
 			if(ptrToData==NULL)
 				break;
-			int *ptr=ptrToData;
+			int *ptr=(int*)ptrToData;
 			// memcpy(&temp, &ptrToData[i*sizeof(int)], sizeof(int));
 			data.push_back(ptr[i]);
 		}
+		// cout<<"page  no"<<midpage<<endl;
 		bool pageFound=false;
 
-		//do bsearch
+		//bsearch
+		if(num>=data[0] && num <= data[data.size()-1])
+			pageFound=true;
+		else if(num>data[data.size()-1])
+			startpage=midpage+1;
+		else
+			endpage=midpage-1;
+
 
 		if(pageFound)
 		{
-			mid=midpage;
+			*mid=midpage;
 			for (int i=0; i <data.size(); i++) 
 			{
 				if (data[i]==num) 
 				{
-					offset = i;
+					*offset = i;
 					ret = true;
 					break;
 				}
 			}
+			break;
 		}		
 	}
 	return ret;
@@ -60,7 +71,7 @@ int main(int argc, const char* argv[]) {
 	int num=stoi(argv[2]);
 
 	// Create a new page
-	PageHandler ph = fh.FirstPage ();
+	PageHandler ph = fh.FirstPage();
 	int startpage= ph.GetPageNum();
 	fh.UnpinPage(startpage);
 	ph = fh.LastPage();
@@ -68,12 +79,13 @@ int main(int argc, const char* argv[]) {
 	fh.UnpinPage(endpage);
 	
 	int mid, offset; //change to vectors
+	cout<<"entering"<<endl;
 	bool ans=bsearch(startpage, endpage, &mid, &offset, num, fh);
 
 	if(ans){
 		cout << (mid+1)<<","<<(offset+1)<<endl;
 	}
 	cout << "-1,-1"<<endl;
-	// Close the file and destory it
-	fm.CloseFile (fh);
+	// Close the file
+	fm.CloseFile(fh);
 }

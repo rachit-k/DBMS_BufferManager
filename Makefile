@@ -21,4 +21,4 @@ file_manager.o : file_manager.cpp
 
 clean :
 	rm -f *.o
-	rm -f sample_run
+	rm -f sample_run binary_search 
