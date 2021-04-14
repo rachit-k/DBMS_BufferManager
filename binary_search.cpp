@@ -42,7 +42,6 @@ bool bsearch(int startpage, int endpage, int *mid, int *offset, int num, FileHan
 		else
 			endpage=midpage-1;
 
-
 		if(pageFound)
 		{
 			*mid=midpage;
@@ -56,7 +55,8 @@ bool bsearch(int startpage, int endpage, int *mid, int *offset, int num, FileHan
 				}
 			}
 			break;
-		}		
+		}
+		fh.UnpinPage(midpage);		
 	}
 	return ret;
 }
@@ -89,3 +89,57 @@ int main(int argc, const char* argv[]) {
 	// Close the file
 	fm.CloseFile(fh);
 }
+
+// int main(int argc, const char* argv[]) {
+// 	FileManager fm;
+// 	int i=0, pageno=0;
+// 	// Create a brand new file
+// 	while(true)
+// 	{
+// 		cout<<"entry"<<endl;
+// 		FileHandler fh = fm.OpenFile(argv[2]);
+// 		PageHandler ph = fh.PageAt(pageno);
+// 		char* ptrToNum=ph.GetData();
+// 		int num;
+// 		if(8*i+11<=PAGE_CONTENT_SIZE)
+// 		{
+// 			memcpy (&num, &ptrToNum[8*i+7], sizeof(int));
+// 			i++;
+// 		}
+// 		else
+// 		{
+// 			i=0;
+// 			pageno++;
+// 			ph=fh.LastPage();
+// 			if(ph.GetPageNum()==pageno)
+// 				break;
+// 			memcpy (&num, &ptrToNum[8*i+7], sizeof(int));
+// 		}
+// 		ph=fh.LastPage();
+// 		if(ph.GetPageNum()==pageno)
+// 			break;
+// 		fm.CloseFile(fh);
+
+// 		fh = fm.OpenFile(argv[1]);
+// 		cout << "File opened " << endl;
+		
+// 		// Create a new page
+// 		ph = fh.FirstPage();
+// 		int startpage= ph.GetPageNum();
+// 		fh.UnpinPage(startpage);
+// 		ph = fh.LastPage();
+// 		int endpage= ph.GetPageNum();
+// 		fh.UnpinPage(endpage);
+		
+// 		int mid, offset; //change to vectors
+// 		cout<<"entering"<<endl;
+// 		bool ans=bsearch(startpage, endpage, &mid, &offset, num, fh);
+
+// 		if(ans){
+// 			cout << (mid+1)<<","<<(offset+1)<<endl;
+// 		}
+// 		cout << "-1,-1"<<endl;
+// 		// Close the file
+// 		fm.CloseFile(fh);
+// 	}
+// }
