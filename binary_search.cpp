@@ -27,9 +27,10 @@ bool bsearch(int startpage, int endpage, int *mid, int *offset, int num, FileHan
 		{
 			if(ptrToData==NULL)
 				break;
-			int *ptr=(int*)ptrToData;
-			// memcpy(&temp, &ptrToData[i*sizeof(int)], sizeof(int));
-			data.push_back(ptr[i]);
+			// int *ptr=(int*)ptrToData; //incorrect, change to memcpy
+			int temp;
+			memcpy(&temp, &ptrToData[i*sizeof(int)], sizeof(int));
+			data.push_back(temp);
 		}
 		// cout<<"page  no"<<midpage<<endl;
 		bool pageFound=false;
