@@ -69,6 +69,7 @@ void forwardsearch(int page, int offset, int num, int endpage, FileHandler fh)
 
 void backwardsearch(int page, int num, int startpage, FileHandler fh)
 {
+	cout<<"here"<<endl;
 	while(page>=startpage)
 	{
 		PageHandler ph = fh.PageAt(page);
@@ -84,7 +85,7 @@ void backwardsearch(int page, int num, int startpage, FileHandler fh)
 				break;
 			data.push_back(temp);
 		}
-		for(int i=data.size();i>=0;i--)
+		for(int i=data.size()-1;i>=0;i--)
 		{
 			if (data[i]==num) 
 			{
@@ -188,6 +189,7 @@ int main(int argc, const char* argv[]) {
 	FileHandler fh2=fm.CreateFile(argv[3]);	
 	PageHandler ph2 = fh2.NewPage ();
 	char *outptr = ph2.GetData ();
+	int j=0;
 
 	PageHandler ph = fh.FirstPage();
 	int startpage= ph.GetPageNum();
@@ -201,7 +203,6 @@ int main(int argc, const char* argv[]) {
 		int num=nums[i];
 		bool ans=bsearch(startpage, endpage, num, fh);
 		// char lpara='(', rpara=')', comma=',', endline= '\n';
-		int j=0;
 		for(int i=0;i<ans_pages.size();i++)
 		{
 			memcpy(&outptr[j], &ans_pages[i], sizeof(int));
@@ -226,6 +227,7 @@ int main(int argc, const char* argv[]) {
 		{
 			ph2=fh2.NewPage();
 			outptr=ph2.GetData();
+			j=0;
 		}
 		// memcpy(&outptr[(4+2*sizeof(int))*i], &lpara, sizeof(char));
 		// memcpy(&outptr[(4+2*sizeof(int))*i + 1 + sizeof(int)], &comma, sizeof(char));
@@ -237,6 +239,12 @@ int main(int argc, const char* argv[]) {
 		// cout << "-1,-1"<<endl;
 		ans_pages.clear();
 		offsets.clear();
+	}
+	while(j<PAGE_CONTENT_SIZE)
+	{
+		int intmin=INT_MIN;
+		memcpy(&outptr[j], &intmin, sizeof(int));
+		j=j+sizeof(int);
 	}
 	// Close the file
 	fm.CloseFile(fh);
