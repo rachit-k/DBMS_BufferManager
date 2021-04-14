@@ -1,9 +1,8 @@
-//Sample file for students to get their code running
-
 #include<iostream>
 #include "file_manager.h"
 #include "errors.h"
 #include<cstring>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -35,6 +34,8 @@ int main(int argc, const char* argv[]) {
 				break;
 			int num;
 			memcpy(&num, &ptr[i*sizeof(int)], sizeof(int));
+			if(num==INT_MIN)
+				break;
 			cout<<num<<endl;
 		}
         fh.UnpinPage(pageno);
