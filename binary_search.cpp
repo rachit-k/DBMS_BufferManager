@@ -190,6 +190,7 @@ int main(int argc, const char* argv[]) {
 	PageHandler ph2 = fh2.NewPage ();
 	char *outptr = ph2.GetData ();
 	int j=0;
+	int curpage=0;
 
 	PageHandler ph = fh.FirstPage();
 	int startpage= ph.GetPageNum();
@@ -212,10 +213,12 @@ int main(int argc, const char* argv[]) {
 			cout<<ans_pages[i]<<","<<offsets[i]<<endl;
 			if(j>=PAGE_CONTENT_SIZE)
 			{
-				//fh.DisposePage(curpage);
+				fh2.MarkDirty(curpage);
+				fh2.UnpinPage(curpage);	
 				ph2=fh2.NewPage();
 				outptr=ph2.GetData();
 				j=0;
+				curpage++;
 			}
 		}
 		int minus1=-1;
@@ -226,10 +229,12 @@ int main(int argc, const char* argv[]) {
 		cout << "-1,-1"<<endl;
 		if(j>=PAGE_CONTENT_SIZE && i!=nums.size()-1)
 		{
-			//fh.DisposePage(curpage);
+			fh2.MarkDirty(curpage);
+			fh2.UnpinPage(curpage);	
 			ph2=fh2.NewPage();
 			outptr=ph2.GetData();
 			j=0;
+			curpage++;
 		}
 		// memcpy(&outptr[(4+2*sizeof(int))*i], &lpara, sizeof(char));
 		// memcpy(&outptr[(4+2*sizeof(int))*i + 1 + sizeof(int)], &comma, sizeof(char));
@@ -248,7 +253,8 @@ int main(int argc, const char* argv[]) {
 		memcpy(&outptr[j], &intmin, sizeof(int));
 		j=j+sizeof(int);
 	}
-	//fh.DisposePage(curpage);
+	fh2.MarkDirty(curpage);
+	fh2.UnpinPage(curpage);	
 	// Close the file
 	fm.CloseFile(fh);
 	fm.CloseFile(fh2);

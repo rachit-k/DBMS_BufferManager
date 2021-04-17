@@ -6,9 +6,12 @@
 
 using namespace std;
 
-void shiftdata(int topage, int tooffset, int frompage, int fromoffset, Filehandler fh, int endpage)
+void shiftdata(int topage, int tooffset, int frompage, int fromoffset, FileHandler fh, int endpage)
 {
-    int intmin=INTMIN;
+	cout<<"frompage "<<frompage<<" topage "<<topage<<endl;
+	cout<<"fromoffset "<<fromoffset<<" tooffset "<<tooffset<<endl;
+    int intmin=INT_MIN;
+	// topage--; frompage--;
     PageHandler toph = fh.PageAt(topage);
     char* toptr=toph.GetData();
 
@@ -24,28 +27,40 @@ void shiftdata(int topage, int tooffset, int frompage, int fromoffset, Filehandl
             break;
 
         memcpy(&toptr[j], &temp, sizeof(int));
+		cout<<"copying "<<temp<<" from page "<<frompage<<" to page "<<topage<<endl;
         memcpy(&fromptr[i], &intmin, sizeof(int));
-		j++;
-		i++;
+		j=j+sizeof(int);
+		i=i+sizeof(int);
 
-        if(j>=PAGE_CONTENT_SIZE)
+        if(j>=PAGE_CONTENT_SIZE && topage<endpage)
         {
-            fh.DisposePage(topage);
+			fh.MarkDirty(topage);
+			fh.UnpinPage(topage);
             topage++;
             toph = fh.PageAt(topage);
             toptr= toph.GetData();
             j=0;
         }
-        if(i>=PAGE_CONTENT_SIZE)
+        if(i>=PAGE_CONTENT_SIZE && frompage<endpage)
         {
-            fh.DisposePage(frompage);
+			fh.MarkDirty(frompage);
+			fh.UnpinPage(frompage);
             frompage++;
             fromph = fh.PageAt(frompage);
             fromptr= fromph.GetData();
             i=0;
         }
     }
+	fh.MarkDirty(topage);
+	fh.UnpinPage(topage);	
+	fh.MarkDirty(frompage);
+	fh.UnpinPage(frompage);
+	cout<<"topage "<<topage<<endl;
     // delete pages at the end starting next to "topage"
+	for(int i=endpage; i>topage;i--)
+	{
+		fh.DisposePage(i);
+	}
 }
 
 void del(int startpage, int endpage, int num, FileHandler fh)
@@ -55,7 +70,6 @@ void del(int startpage, int endpage, int num, FileHandler fh)
     int j=-1;
 	while(page<=endpage)
 	{
-        
 		PageHandler ph = fh.PageAt(page);
 		vector<int> data;
 		char* ptr=ph.GetData();
@@ -109,14 +123,12 @@ int main(int argc, const char* argv[]) {
 		fin>>num;
 		nums.push_back(num);
 	}
-
 	PageHandler ph = fh.FirstPage();
 	int startpage= ph.GetPageNum();
 	fh.UnpinPage(startpage);
 	ph = fh.LastPage();
 	int endpage= ph.GetPageNum();
 	fh.UnpinPage(endpage);
-	
 	for(int i=0;i<nums.size();i++)
 	{
 		int num=nums[i];

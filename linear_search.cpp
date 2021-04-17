@@ -63,6 +63,7 @@ int main(int argc, const char* argv[]) {
 	PageHandler ph2 = fh2.NewPage ();
 	char *outptr = ph2.GetData ();
 	int j=0;
+	int curpage=0;
 
 	PageHandler ph = fh.FirstPage();
 	int startpage= ph.GetPageNum();
@@ -85,9 +86,12 @@ int main(int argc, const char* argv[]) {
 			cout<<ans_pages[i]<<","<<offsets[i]<<endl;
 			if(j>=PAGE_CONTENT_SIZE)
 			{
+				fh2.MarkDirty(curpage);
+				fh2.UnpinPage(curpage);	
 				ph2=fh2.NewPage();
 				outptr=ph2.GetData();
 				j=0;
+				curpage++;
 			}
 		}
 		int minus1=-1;
@@ -98,9 +102,12 @@ int main(int argc, const char* argv[]) {
 		cout << "-1,-1"<<endl;
 		if(j>=PAGE_CONTENT_SIZE && i!=nums.size()-1)
 		{
+			fh2.MarkDirty(curpage);
+			fh2.UnpinPage(curpage);
 			ph2=fh2.NewPage();
 			outptr=ph2.GetData();
 			j=0;
+			curpage++;
 		}
 
 		ans_pages.clear();
@@ -112,7 +119,9 @@ int main(int argc, const char* argv[]) {
 		memcpy(&outptr[j], &intmin, sizeof(int));
 		j=j+sizeof(int);
 	}
-
+	fh2.MarkDirty(curpage);
+	fh2.UnpinPage(curpage);	
+	
 	fm.CloseFile(fh);
 	fm.CloseFile(fh2);
 }
