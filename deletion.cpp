@@ -25,6 +25,8 @@ void shiftdata(int topage, int tooffset, int frompage, int fromoffset, Filehandl
 
         memcpy(&toptr[j], &temp, sizeof(int));
         memcpy(&fromptr[i], &intmin, sizeof(int));
+		j++;
+		i++;
 
         if(j>=PAGE_CONTENT_SIZE)
         {
@@ -74,7 +76,7 @@ void del(int startpage, int endpage, int num, FileHandler fh)
                 if(j==-1)
                 {
                     j=i;
-                    writepage=page;
+                    topage=page;
                 }
                 continue;
 			}
@@ -98,7 +100,6 @@ int main(int argc, const char* argv[]) {
 	cout << "File opened " << endl;
 	ifstream fin;
 	fin.open(argv[2]);
-	// int num=stoi(argv[2]);
 	string s;
 	vector<int> nums;
 	while(fin)
