@@ -35,6 +35,7 @@ void forwardsearch(int page, int offset, int num, int endpage, FileHandler fh)
 			return;
 	}
 	fh.UnpinPage(page);
+	fh.FlushPage(page);	
 	page++;
 
 	while(page<=endpage)
@@ -62,7 +63,8 @@ void forwardsearch(int page, int offset, int num, int endpage, FileHandler fh)
 			else
 				return;
 		}
-		fh.UnpinPage(page);		
+		fh.UnpinPage(page);	
+		fh.FlushPage(page);		
 		page++;
 	}
 }
@@ -95,7 +97,8 @@ void backwardsearch(int page, int num, int startpage, FileHandler fh)
 			else
 				return;
 		}
-		fh.UnpinPage(page);		
+		fh.UnpinPage(page);
+		fh.FlushPage(page);			
 		page++;
 	}
 }
@@ -153,7 +156,8 @@ bool bsearch(int startpage, int endpage, int num, FileHandler fh)
 			}
 			break;
 		}
-		fh.UnpinPage(midpage);		
+		fh.UnpinPage(midpage);
+		fh.FlushPage(midpage);			
 	}
 	if(ret)
 	{
@@ -195,9 +199,11 @@ int main(int argc, const char* argv[]) {
 	PageHandler ph = fh.FirstPage();
 	int startpage= ph.GetPageNum();
 	fh.UnpinPage(startpage);
+	fh.FlushPage(startpage);	
 	ph = fh.LastPage();
 	int endpage= ph.GetPageNum();
 	fh.UnpinPage(endpage);
+	fh.FlushPage(endpage);	
 	
 	for(int i=0;i<nums.size();i++)
 	{
@@ -215,6 +221,7 @@ int main(int argc, const char* argv[]) {
 			{
 				fh2.MarkDirty(curpage);
 				fh2.UnpinPage(curpage);	
+				fh2.FlushPage(curpage);
 				ph2=fh2.NewPage();
 				outptr=ph2.GetData();
 				j=0;
@@ -231,6 +238,7 @@ int main(int argc, const char* argv[]) {
 		{
 			fh2.MarkDirty(curpage);
 			fh2.UnpinPage(curpage);	
+			fh2.FlushPage(curpage);
 			ph2=fh2.NewPage();
 			outptr=ph2.GetData();
 			j=0;

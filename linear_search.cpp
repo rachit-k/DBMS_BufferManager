@@ -35,7 +35,8 @@ void lsearch(int startpage, int endpage, int num, FileHandler fh)
 				offsets.push_back(i);
 			}
 		}
-		fh.UnpinPage(page);		
+		fh.UnpinPage(page);	
+		fh.FlushPage(page);	
 		page++;
 	}
 }
@@ -68,10 +69,12 @@ int main(int argc, const char* argv[]) {
 	PageHandler ph = fh.FirstPage();
 	int startpage= ph.GetPageNum();
 	fh.UnpinPage(startpage);
+	fh.FlushPage(startpage);
 	ph = fh.LastPage();
 	int endpage= ph.GetPageNum();
 	fh.UnpinPage(endpage);
-	
+	fh.FlushPage(endpage);
+
 	for(int i=0;i<nums.size();i++)
 	{
 		int num=nums[i];
@@ -88,6 +91,7 @@ int main(int argc, const char* argv[]) {
 			{
 				fh2.MarkDirty(curpage);
 				fh2.UnpinPage(curpage);	
+				fh2.FlushPage(curpage);
 				ph2=fh2.NewPage();
 				outptr=ph2.GetData();
 				j=0;
@@ -104,6 +108,7 @@ int main(int argc, const char* argv[]) {
 		{
 			fh2.MarkDirty(curpage);
 			fh2.UnpinPage(curpage);
+			fh2.FlushPage(curpage);
 			ph2=fh2.NewPage();
 			outptr=ph2.GetData();
 			j=0;
