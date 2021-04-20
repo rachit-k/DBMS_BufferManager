@@ -27,7 +27,7 @@ void shiftdata(int topage, int tooffset, int frompage, int fromoffset, FileHandl
             break;
 
         memcpy(&toptr[j], &temp, sizeof(int));
-		cout<<"copying "<<temp<<" from page "<<frompage<<" to page "<<topage<<endl;
+		// cout<<"copying "<<temp<<" from page "<<frompage<<" offset "<<i/sizeof(int)<<" to page "<<topage<<" offset "<<j/sizeof(int)<<endl;
         memcpy(&fromptr[i], &intmin, sizeof(int));
 		j=j+sizeof(int);
 		i=i+sizeof(int);
@@ -36,6 +36,7 @@ void shiftdata(int topage, int tooffset, int frompage, int fromoffset, FileHandl
         {
 			fh.MarkDirty(topage);
 			fh.UnpinPage(topage);
+			// fh.FlushPage(topage);
             topage++;
             toph = fh.PageAt(topage);
             toptr= toph.GetData();
@@ -45,6 +46,7 @@ void shiftdata(int topage, int tooffset, int frompage, int fromoffset, FileHandl
         {
 			fh.MarkDirty(frompage);
 			fh.UnpinPage(frompage);
+			// fh.FlushPage(frompage);
             frompage++;
             fromph = fh.PageAt(frompage);
             fromptr= fromph.GetData();
@@ -55,12 +57,14 @@ void shiftdata(int topage, int tooffset, int frompage, int fromoffset, FileHandl
 	fh.UnpinPage(topage);	
 	fh.MarkDirty(frompage);
 	fh.UnpinPage(frompage);
-	cout<<"topage "<<topage<<endl;
+	fh.FlushPages();
+
     // delete pages at the end starting next to "topage"
 	for(int i=endpage; i>topage;i--)
 	{
 		fh.DisposePage(i);
 	}
+	fh.FlushPages();
 }
 
 void del(int startpage, int endpage, int num, FileHandler fh)
@@ -98,10 +102,12 @@ void del(int startpage, int endpage, int num, FileHandler fh)
             {
                 shiftdata(topage, j, page, i, fh, endpage);
                 fh.UnpinPage(page);	
+				fh.FlushPage(page);
                 return;
             }            
 		}
 		fh.UnpinPage(page);	
+		fh.FlushPage(page);
 		page++;
 	}
 }
@@ -126,9 +132,11 @@ int main(int argc, const char* argv[]) {
 	PageHandler ph = fh.FirstPage();
 	int startpage= ph.GetPageNum();
 	fh.UnpinPage(startpage);
+	fh.FlushPage(startpage);
 	ph = fh.LastPage();
 	int endpage= ph.GetPageNum();
 	fh.UnpinPage(endpage);
+	fh.FlushPage(endpage);
 	for(int i=0;i<nums.size();i++)
 	{
 		int num=nums[i];
