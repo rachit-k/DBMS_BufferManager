@@ -8,8 +8,8 @@ using namespace std;
 
 void shiftdata(int topage, int tooffset, int frompage, int fromoffset, FileHandler fh, int endpage)
 {
-	cout<<"frompage "<<frompage<<" topage "<<topage<<endl;
-	cout<<"fromoffset "<<fromoffset<<" tooffset "<<tooffset<<endl;
+	// cout<<"frompage "<<frompage<<" topage "<<topage<<endl;
+	// cout<<"fromoffset "<<fromoffset<<" tooffset "<<tooffset<<endl;
     int intmin=INT_MIN;
 	// topage--; frompage--;
     PageHandler toph = fh.PageAt(topage);
@@ -117,7 +117,7 @@ int main(int argc, const char* argv[]) {
 
 	// Create a brand new file
 	FileHandler fh = fm.OpenFile(argv[1]);
-	cout << "File opened " << endl;
+	// cout << "File opened " << endl;
 	ifstream fin;
 	fin.open(argv[2]);
 	string s;
@@ -132,11 +132,10 @@ int main(int argc, const char* argv[]) {
 	PageHandler ph = fh.FirstPage();
 	int startpage= ph.GetPageNum();
 	fh.UnpinPage(startpage);
-	fh.FlushPage(startpage);
 	ph = fh.LastPage();
 	int endpage= ph.GetPageNum();
 	fh.UnpinPage(endpage);
-	fh.FlushPage(endpage);
+	
 	for(int i=0;i<nums.size();i++)
 	{
 		int num=nums[i];

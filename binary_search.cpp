@@ -34,8 +34,7 @@ void forwardsearch(int page, int offset, int num, int endpage, FileHandler fh)
 		else
 			return;
 	}
-	fh.UnpinPage(page);
-	fh.FlushPage(page);	
+	fh.UnpinPage(page);	
 	page++;
 
 	while(page<=endpage)
@@ -63,15 +62,14 @@ void forwardsearch(int page, int offset, int num, int endpage, FileHandler fh)
 			else
 				return;
 		}
-		fh.UnpinPage(page);	
-		fh.FlushPage(page);		
+		fh.UnpinPage(page);		
 		page++;
 	}
 }
 
 void backwardsearch(int page, int num, int startpage, FileHandler fh)
 {
-	cout<<"here"<<endl;
+	// cout<<"here"<<endl;
 	while(page>=startpage)
 	{
 		PageHandler ph = fh.PageAt(page);
@@ -97,8 +95,7 @@ void backwardsearch(int page, int num, int startpage, FileHandler fh)
 			else
 				return;
 		}
-		fh.UnpinPage(page);
-		fh.FlushPage(page);			
+		fh.UnpinPage(page);		
 		page++;
 	}
 }
@@ -107,7 +104,7 @@ bool bsearch(int startpage, int endpage, int num, FileHandler fh)
 {
 	bool ret=false;
 	int offset, mid;
-	cout<<"startpage "<<startpage<<" endpage "<<endpage<<endl;
+	// cout<<"startpage "<<startpage<<" endpage "<<endpage<<endl;
 	// while(startpage <= endpage && !ret)
 	while(true)
 	{
@@ -156,8 +153,7 @@ bool bsearch(int startpage, int endpage, int num, FileHandler fh)
 			}
 			break;
 		}
-		fh.UnpinPage(midpage);
-		fh.FlushPage(midpage);			
+		fh.UnpinPage(midpage);		
 	}
 	if(ret)
 	{
@@ -176,7 +172,7 @@ int main(int argc, const char* argv[]) {
 
 	// Create a brand new file
 	FileHandler fh = fm.OpenFile(argv[1]);
-	cout << "File opened " << endl;
+	// cout << "File opened " << endl;
 	ifstream fin;
 	fin.open(argv[2]);
 	// int num=stoi(argv[2]);
@@ -198,12 +194,10 @@ int main(int argc, const char* argv[]) {
 
 	PageHandler ph = fh.FirstPage();
 	int startpage= ph.GetPageNum();
-	fh.UnpinPage(startpage);
-	fh.FlushPage(startpage);	
+	fh.UnpinPage(startpage);	
 	ph = fh.LastPage();
 	int endpage= ph.GetPageNum();
 	fh.UnpinPage(endpage);
-	fh.FlushPage(endpage);	
 	
 	for(int i=0;i<nums.size();i++)
 	{
@@ -216,7 +210,7 @@ int main(int argc, const char* argv[]) {
 			j=j+sizeof(int);
 			memcpy(&outptr[j], &offsets[i], sizeof(int));
 			j=j+sizeof(int);
-			cout<<ans_pages[i]<<","<<offsets[i]<<endl;
+			// cout<<ans_pages[i]<<","<<offsets[i]<<endl;
 			if(j>=PAGE_CONTENT_SIZE)
 			{
 				fh2.MarkDirty(curpage);
@@ -233,7 +227,7 @@ int main(int argc, const char* argv[]) {
 		j=j+sizeof(int);
 		memcpy(&outptr[j], &minus1, sizeof(int));
 		j=j+sizeof(int);
-		cout << "-1,-1"<<endl;
+		// cout << "-1,-1"<<endl;
 		if(j>=PAGE_CONTENT_SIZE && i!=nums.size()-1)
 		{
 			fh2.MarkDirty(curpage);
