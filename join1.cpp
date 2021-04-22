@@ -1,7 +1,7 @@
-#include<iostream>
+#include <iostream>
 #include "file_manager.h"
 #include "errors.h"
-#include<cstring>
+#include <cstring>
 #include "constants.h"
 #include <bits/stdc++.h>
 using namespace std;
@@ -76,10 +76,11 @@ int main(int argc, const char* argv[]) {
         }
     }
     cout<<"Here, j is "<<j<<endl;
-    outptr[j] = NULL;
-    // if(j<PAGE_CONTENT_SIZE){
-    //     memcpy(&outptr[j], NULL, sizeof(int));
-    // }
+    while(j<PAGE_CONTENT_SIZE){
+        int minint = INT_MIN;
+        memcpy(&outptr[j], &minint, sizeof(int));
+        j = j + sizeof(int);
+    }
     fm.CloseFile(outFile);
     ans.clear();
     return 0;
