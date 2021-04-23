@@ -10,11 +10,11 @@ all: linear_search binary_search deletion join1 join2 bin_txt comp
 sample_run : $(sampleobjects)
 	     g++ -std=c++11 -o sample_run $(sampleobjects)
 
-linear_search : $(linearObjects)
-		 g++ -std=c++11 -o linear_search $(linearObjects)
+linearsearch : $(linearObjects)
+		 g++ -std=c++11 -o linearsearch $(linearObjects)
 
-binary_search : $(binaryObjects)
-		 g++ -std=c++11 -o binary_search $(binaryObjects)
+binarysearch : $(binaryObjects)
+		 g++ -std=c++11 -o binarysearch $(binaryObjects)
 
 deletion : $(deletionObjects)
 		 g++ -std=c++11 -o deletion $(deletionObjects)
@@ -43,6 +43,9 @@ join2.o : join2.cpp
 linear_search.o : linear_search.cpp
 	g++ -std=c++11 -c linear_search.cpp
 
+binary_search.o : binary_search.cpp
+	g++ -std=c++11 -c binary_search.cpp
+
 deletion.o : deletion.cpp
 	g++ -std=c++11 -c deletion.cpp
 
@@ -60,4 +63,4 @@ file_manager.o : file_manager.cpp
 
 clean :
 	rm -f *.o
-	rm -f sample_run linear_search binary_search deletion join1 bin_txt
+	rm -f sample_run linearsearch binarysearch deletion join1 join2 bin_txt

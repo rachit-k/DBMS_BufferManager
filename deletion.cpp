@@ -64,6 +64,15 @@ void shiftdata(int topage, int tooffset, int frompage, int fromoffset, FileHandl
 	{
 		fh.DisposePage(i);
 	}
+	int temp;
+	toph = fh.LastPage();
+	int temppage=toph.GetPageNum();
+	toptr= toph.GetData();
+	memcpy(&temp,&toptr[0], sizeof(int));
+    if(temp==INT_MIN)
+		fh.DisposePage(temppage);
+	fh.UnpinPage(temppage);
+
 	fh.FlushPages();
 }
 
