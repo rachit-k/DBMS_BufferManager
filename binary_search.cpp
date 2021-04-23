@@ -18,12 +18,13 @@ int main(int argc, const char* argv[]) {
 	// int num=stoi(argv[2]);
 	string s;
 	vector<int> nums;
-	while(fin)
+	while(fin>>s)
 	{
-		fin>>s;
 		int num;
 		fin>>num;
 		nums.push_back(num);
+		if(fin.eof())
+			break;
 	}
 
 	FileHandler fh2=fm.CreateFile(argv[3]);	

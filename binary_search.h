@@ -99,7 +99,7 @@ void backwardsearch(int page, int num, int startpage, FileHandler fh)
 				return;
 		}
 		fh.UnpinPage(page);		
-		page++;
+		page--;
 	}
 }
 
