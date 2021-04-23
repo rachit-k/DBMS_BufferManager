@@ -5,7 +5,8 @@ deletionObjects = buffer_manager.o file_manager.o deletion.o
 join1Objects = buffer_manager.o file_manager.o join1.o
 join2Objects = buffer_manager.o file_manager.o join2.o
 bintxtObjects = buffer_manager.o file_manager.o bin_txt.o
-
+compObjects = buffer_manager.o file_manager.o comp.o
+all: linear_search binary_search deletion join1 join2 bin_txt comp 
 sample_run : $(sampleobjects)
 	     g++ -std=c++11 -o sample_run $(sampleobjects)
 
@@ -27,6 +28,9 @@ join2 : $(join2Objects)
 bin_txt : $(bintxtObjects)
 		 g++ -std=c++11 -o bin_txt $(bintxtObjects)
 
+comp : $(compObjects)
+		 g++ -std=c++11 -o comp $(compObjects)
+
 sample_run.o : sample_run.cpp
 	g++ -std=c++11 -c sample_run.cpp
 
@@ -44,6 +48,9 @@ deletion.o : deletion.cpp
 
 bin_txt.o : bin_txt.cpp
 	g++ -std=c++11 -c bin_txt.cpp
+
+comp.o : comp.cpp
+	g++ -std=c++11 -c comp.cpp
 
 buffer_manager.o : buffer_manager.cpp
 	g++ -std=c++11 -c buffer_manager.cpp
