@@ -11,9 +11,9 @@ int main(int argc, const char* argv[]) {
 
 	// Create a brand new file
 	FileHandler file1 = fm.OpenFile(argv[1]);
-	cout << "File 1 opened " << endl;
+	//cout << "File 1 opened " << endl;
 	FileHandler file2 = fm.OpenFile(argv[2]);;
-    cout << "File 2 opened " << endl;
+    //cout << "File 2 opened " << endl;
 
 	// Get start and end page for file1
 	PageHandler ph = file1.FirstPage();
@@ -41,12 +41,12 @@ int main(int argc, const char* argv[]) {
             }
 
             int num = data1[i];
-            cout<<"Num is "<<num<<endl;
+            //cout<<"Num is "<<num<<endl;
             bool ret =  bsearch(startPage2, endPage2, data1[i], file2);
-            cout<<"Number of times "<<num<<" was found is "<<search_results.size()<<"  "<<ans_pages.size()<<endl;
-            for(auto x: search_results){
-                cout<<x.first<<" -> "<<x.second<<endl;
-            }
+            //cout<<"Number of times "<<num<<" was found is "<<search_results.size()<<"  "<<ans_pages.size()<<endl;
+            // for(auto x: search_results){
+            //     cout<<x.first<<" -> "<<x.second<<endl;
+            // }
             if(ret){
                 for(int j = 0; j < search_results.size(); ++j){
                     ans.push_back(num);
@@ -61,7 +61,7 @@ int main(int argc, const char* argv[]) {
     // for(int i = 0; i< ans.size(); ++i){
     //     cout<<ans[i]<<" "<<endl;
     // }
-    cout<<ans.size();
+    //cout<<ans.size();
 	// Close the files
 	fm.CloseFile(file1);
     fm.CloseFile(file2);
@@ -82,7 +82,7 @@ int main(int argc, const char* argv[]) {
             pageNum++;
         }
     }
-    cout<<"Here, j is "<<j<<endl;
+    //cout<<"Here, j is "<<j<<endl;
     while(j<PAGE_CONTENT_SIZE){
         int minint = INT_MIN;
         memcpy(&outptr[j], &minint, sizeof(int));

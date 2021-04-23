@@ -11,7 +11,7 @@ int main(int argc, const char* argv[]) {
 
 	// Create a brand new file
 	FileHandler fh = fm.OpenFile(argv[1]);
-	cout << "File opened " << endl;
+	// cout << "File opened " << endl;
 
 	// int pageno=0, i=0;
 	PageHandler ph = fh.FirstPage();

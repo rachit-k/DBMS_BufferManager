@@ -52,10 +52,10 @@ int main(int argc, const char* argv[]) {
         }
         file1.UnpinPage(page1);	
     }
-    for(int i = 0; i< ans.size(); ++i){
-        cout<<ans[i]<<" "<<endl;
-    }
-    cout<<ans.size();
+    // for(int i = 0; i< ans.size(); ++i){
+    //     cout<<ans[i]<<" "<<endl;
+    // }
+    // cout<<ans.size();
 	// Close the files
 	fm.CloseFile(file1);
     fm.CloseFile(file2);
