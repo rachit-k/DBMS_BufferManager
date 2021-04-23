@@ -22,7 +22,7 @@ int main(int argc, const char* argv[]) {
 	fh.UnpinPage(endpage);
 
 	int pageno=startpage;
-    
+    bool flag=false;
     while(pageno<=endpage)
     {
         cout<<"pageno: "<<pageno<<endl;
@@ -35,9 +35,11 @@ int main(int argc, const char* argv[]) {
 			int num;
 			memcpy(&num, &ptr[i*sizeof(int)], sizeof(int));
 			if(num==INT_MIN)
-				break;
+				flag=true;
 			cout<<num<<endl;
 		}
+		if(flag)
+			break;
         fh.UnpinPage(pageno);
         pageno++;
     }
