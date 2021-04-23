@@ -43,7 +43,7 @@ int main(int argc, const char* argv[]) {
                     if(&data1[i]==NULL or &data2[j]==NULL){
                         break;
                     }
-                    if(data1[i]==data2[j]){
+                    if(data1[i]==data2[j] and data1[i]!=INT_MIN){
                         ans.push_back(data1[i]);
                     }
                 }
@@ -68,15 +68,15 @@ int main(int argc, const char* argv[]) {
         memcpy(&outptr[j], &ans[i], sizeof(int));
 		j=j+sizeof(int);
         if(j>=PAGE_CONTENT_SIZE){
-            if(i+1==ans.size()) continue;
             outFile.UnpinPage(pageNum);
+            if(i+1==ans.size()) break;
             outPage = outFile.NewPage();
             outptr = outPage.GetData();
             j=0;
             pageNum++;
         }
     }
-    cout<<"Here, j is "<<j<<endl;
+    // cout<<"Here, j is "<<j<<endl;
     while(j<PAGE_CONTENT_SIZE){
         int minint = INT_MIN;
         memcpy(&outptr[j], &minint, sizeof(int));

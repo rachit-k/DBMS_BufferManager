@@ -47,7 +47,7 @@ int main(int argc, const char* argv[]) {
             // for(auto x: search_results){
             //     cout<<x.first<<" -> "<<x.second<<endl;
             // }
-            if(ret){
+            if(ret && num!=INT_MIN){
                 for(int j = 0; j < search_results.size(); ++j){
                     ans.push_back(num);
                 }
