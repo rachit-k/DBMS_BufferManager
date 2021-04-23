@@ -43,6 +43,10 @@ int main(int argc, const char* argv[]) {
             int num = data1[i];
             cout<<"Num is "<<num<<endl;
             bool ret =  bsearch(startPage2, endPage2, data1[i], file2);
+            cout<<"Number of times "<<num<<" was found is "<<search_results.size()<<"  "<<ans_pages.size()<<endl;
+            for(auto x: search_results){
+                cout<<x.first<<" -> "<<x.second<<endl;
+            }
             if(ret){
                 for(int j = 0; j < search_results.size(); ++j){
                     ans.push_back(num);
