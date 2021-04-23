@@ -70,6 +70,7 @@ int main(int argc, const char* argv[]) {
         memcpy(&outptr[j], &ans[i], sizeof(int));
 		j=j+sizeof(int);
         if(j>=PAGE_CONTENT_SIZE){
+            if(i+1==ans.size()) continue;
             outFile.UnpinPage(pageNum);
             outPage = outFile.NewPage();
             outptr = outPage.GetData();
